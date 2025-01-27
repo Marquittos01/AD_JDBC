@@ -21,10 +21,11 @@ public class Servicio {
     }
 
     public void anadirTarea(Scanner scanner) throws IOException {
-        if (getConnection() == null) {
+
+        /*if (getConnection() == null) {
             System.out.println("No se ha conectado a la base de datos.");
             return;
-        }
+        }*/
         System.out.print("Nombre de la tarea: ");
         String name = scanner.nextLine();
         System.out.print("Descripción de la tarea: ");
@@ -51,7 +52,7 @@ public class Servicio {
 
 
     public void modificarTarea(Scanner scanner) throws IOException {
-        getConnection();
+
 
         verTareas();
         if (tasks.isEmpty()) return;

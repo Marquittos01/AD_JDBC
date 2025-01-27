@@ -1,7 +1,8 @@
+import java.io.IOException;
 import java.util.Scanner;
 
-public class AdministradorTareas {
-    public static void main(String[] args) {
+public class Main {
+    public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         Servicio taskService = new Servicio();
         int option;

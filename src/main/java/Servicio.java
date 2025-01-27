@@ -20,7 +20,11 @@ public class Servicio {
         }
     }
 
-    public void anadirTarea(Scanner scanner) {
+    public void anadirTarea(Scanner scanner) throws IOException {
+        if (getConnection() == null) {
+            System.out.println("No se ha conectado a la base de datos.");
+            return;
+        }
         System.out.print("Nombre de la tarea: ");
         String name = scanner.nextLine();
         System.out.print("Descripción de la tarea: ");
@@ -46,7 +50,9 @@ public class Servicio {
     }
 
 
-    public void modificarTarea(Scanner scanner) {
+    public void modificarTarea(Scanner scanner) throws IOException {
+        getConnection();
+
         verTareas();
         if (tasks.isEmpty()) return;
 
@@ -122,7 +128,7 @@ public class Servicio {
     }
 
 
-    public Connection getConnection() throws SQLException, IOException {
+    public Connection getConnection() throws IOException {
         Properties properties = new Properties();
         String IP, PORT, BBDD, USER, PWD;
 
@@ -133,20 +139,16 @@ public class Servicio {
             System.out.println("No se pudo encontrar el archivo de propiedades");
             return null;
         } else {
-            // Cargar las propiedades desde el archivo
             properties.load(input);
-            // String IP = (String) properties.get("IP"); //Tiene sentido leerlo desde fuera del Jar por si cambiamos la IP, el resto no debería de cambiar
-            //ni debería ser público
-            PORT = (String) properties.get("PORT");//En vez de crear con new, lo crea por asignación + casting
+            PORT = (String) properties.get("PORT");
             BBDD = (String) properties.get("BBDD");
-            USER = (String) properties.get("USER");//USER de MARIADB en LAMP
-            PWD = (String) properties.get("PWD");//PWD de MARIADB en LAMP
+            USER = (String) properties.get("USER");
+            PWD = (String) properties.get("PWD");
 
             Connection conn;
             try {
                 String cadconex = "jdbc:mysql://" + IP + ":" + PORT + "/" + BBDD + " USER:" + USER + "PWD:" + PWD;
                 System.out.println(cadconex);
-                //Si usamos LAMP Funciona con ambos conectores
                 conn = DriverManager.getConnection("jdbc:mysql://" + IP + ":" + PORT + "/" + BBDD, USER, PWD);
                 return conn;
             } catch (SQLException e) {

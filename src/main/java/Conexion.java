@@ -11,7 +11,7 @@ public class Conexion {
     public static Properties properties = new Properties();
     static {
         try {
-            InputStream input = Conexion.class.getClassLoader().getResourceAsStream("db.properties");
+            InputStream input = Conexion.class.getClassLoader().getResourceAsStream("bbdd.properties");
             properties.load(input);
         } catch (IOException e) {
             e.printStackTrace();

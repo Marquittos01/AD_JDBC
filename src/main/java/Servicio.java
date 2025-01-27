@@ -1,7 +1,9 @@
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Scanner;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.*;
 
 public class Servicio {
     private ArrayList<Tarea> tasks = new ArrayList<>();
@@ -117,5 +119,44 @@ public class Servicio {
             }
         }
         return null;
+    }
+
+
+    public Connection getConnection() throws SQLException, IOException {
+        Properties properties = new Properties();
+        String IP, PORT, BBDD, USER, PWD;
+
+        IP = "localhost";
+
+        InputStream input = getClass().getClassLoader().getResourceAsStream("bbdd.properties");
+        if (input == null) {
+            System.out.println("No se pudo encontrar el archivo de propiedades");
+            return null;
+        } else {
+            // Cargar las propiedades desde el archivo
+            properties.load(input);
+            // String IP = (String) properties.get("IP"); //Tiene sentido leerlo desde fuera del Jar por si cambiamos la IP, el resto no debería de cambiar
+            //ni debería ser público
+            PORT = (String) properties.get("PORT");//En vez de crear con new, lo crea por asignación + casting
+            BBDD = (String) properties.get("BBDD");
+            USER = (String) properties.get("USER");//USER de MARIADB en LAMP
+            PWD = (String) properties.get("PWD");//PWD de MARIADB en LAMP
+
+            Connection conn;
+            try {
+                String cadconex = "jdbc:mysql://" + IP + ":" + PORT + "/" + BBDD + " USER:" + USER + "PWD:" + PWD;
+                System.out.println(cadconex);
+                //Si usamos LAMP Funciona con ambos conectores
+                conn = DriverManager.getConnection("jdbc:mysql://" + IP + ":" + PORT + "/" + BBDD, USER, PWD);
+                return conn;
+            } catch (SQLException e) {
+                System.out.println("Error SQL: " + e.getMessage());
+                return null;
+            }
+        }
+    }
+
+    public static void closeConnection(Connection connection) throws SQLException {
+        connection.close();
     }
 }

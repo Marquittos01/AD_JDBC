@@ -5,6 +5,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         Servicio taskService = new Servicio();
+        Conexion.getConnection();
         int option;
 
         do {

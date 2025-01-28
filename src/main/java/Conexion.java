@@ -1,3 +1,4 @@
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -8,38 +9,27 @@ import java.util.Properties;
 
 public class Conexion {
 
-    public static Properties properties = new Properties();
-    static {
-        try {
-            InputStream input = Conexion.class.getClassLoader().getResourceAsStream("bbdd.properties");
-            properties.load(input);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    public Connection getConnection() throws IOException {
+    public static Connection getConnection() throws IOException {
         Properties properties = new Properties();
-        String IP, PORT, BBDD, USER, PWD;
+        String URL, BBDD, USER, PWD;
 
-        IP = "localhost";
-
-        InputStream input = getClass().getClassLoader().getResourceAsStream("bbdd.properties");
+        InputStream input = Conexion.class.getClassLoader().getResourceAsStream("bbdd.properties");
         if (input == null) {
             System.out.println("No se pudo encontrar el archivo de propiedades");
             return null;
         } else {
             properties.load(input);
-            PORT = (String) properties.get("PORT");
+            URL = (String) properties.get("URL");
             BBDD = (String) properties.get("BBDD");
             USER = (String) properties.get("USER");
             PWD = (String) properties.get("PWD");
 
             Connection conn;
             try {
-                String cadconex = "jdbc:mysql://" + IP + ":" + PORT + "/" + BBDD + " USER:" + USER + "PWD:" + PWD;
+                String cadconex = URL + "/" + BBDD + " USER:" + USER + "PWD:" + PWD;
                 System.out.println(cadconex);
-                conn = DriverManager.getConnection("jdbc:mysql://" + IP + ":" + PORT + "/" + BBDD, USER, PWD);
+                conn = DriverManager.getConnection(URL + "/" + BBDD, USER, PWD);
                 return conn;
             } catch (SQLException e) {
                 System.out.println("Error SQL: " + e.getMessage());

@@ -13,7 +13,6 @@ public class Main {
 
         Servicio.crearTabla();
 
-        Servicio.insertarDatos("irnvmov","tbnrievo",new Date(2007,12,11),"irevjesjvn");
 
         /*String query = "INSERT INTO tarea (id, nombre, descripcion, fecha, estado) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement pst = conn.prepareStatement(query)) {

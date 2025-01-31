@@ -47,6 +47,18 @@ public class Servicio {
         Date date = new Date();
         tasks.add(new Tarea(idActual++, name, description, estado, date));
         System.out.println("Tarea añadida correctamente.");
+
+        // Insertar en la base de datos
+        String query = "INSERT INTO tarea (nombre, descripcion, fecha, estado) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement pst = Conexion.getConnection().prepareStatement(query)) {
+            pst.setString(1, name);
+            pst.setString(2, description);
+            pst.setDate(3, new java.sql.Date(date.getYear(), date.getMonth(), date.getDay()));
+            pst.setString(4, estado.toString());
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

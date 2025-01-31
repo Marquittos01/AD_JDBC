@@ -9,19 +9,19 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         Servicio taskService = new Servicio();
-        Conexion.getConnection();
+        Connection conexion = Conexion.getConnection();
 
-        /*String query = "INSERT INTO Tarea (id, nombre, descripcion, fecha, estado) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement pst = Objects.requireNonNull(Conexion.getConnection()).prepareStatement(query)) {
+        String query = "INSERT INTO tarea (id, nombre, descripcion, fecha, estado) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement pst = Objects.requireNonNull(conexion).prepareStatement(query)) {
             pst.setInt(1, 4);
             pst.setString(2, "fecha");
             pst.setString(3, "golLocal");
             pst.setDate(4, new Date(2003,12,12));
-            pst.setString(5, "EN_RNIVMCEO");
+            pst.setString(5, "EN_PROCESO");
             pst.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }*/
+        }
 
 
         int option;

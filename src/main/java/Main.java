@@ -11,7 +11,11 @@ public class Main {
         Servicio taskService = new Servicio();
         Connection conn = Conexion.getConnection();
 
-        String query = "INSERT INTO tarea (id, nombre, descripcion, fecha, estado) VALUES (?, ?, ?, ?, ?)";
+        Servicio.crearTabla();
+
+        Servicio.insertarDatos("irnvmov","tbnrievo",new Date(2007,12,11),"irevjesjvn");
+
+        /*String query = "INSERT INTO tarea (id, nombre, descripcion, fecha, estado) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement pst = conn.prepareStatement(query)) {
             pst.setInt(1, 5);
             pst.setString(2, "fecha");
@@ -21,7 +25,7 @@ public class Main {
             pst.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }
+        }*/
 
 
         int option;

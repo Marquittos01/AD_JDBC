@@ -1,9 +1,8 @@
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
+import java.util.Date;
 
 public class Servicio {
     private ArrayList<Tarea> tasks = new ArrayList<>();
@@ -128,4 +127,40 @@ public class Servicio {
         return null;
     }
 
+    public static void crearTabla() {
+        try {
+            String createTableQuery = """
+                CREATE TABLE IF NOT EXISTS public."tarea" (
+                    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+                    nombre TEXT NOT NULL,
+                    descripcion TEXT,
+                    fecha DATE NOT NULL,
+                    estado TEXT NOT NULL
+                );
+                """;
+
+            try (Statement stmt = Conexion.getConnection().createStatement()) {
+                stmt.execute(createTableQuery);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void insertarDatos(String nombre, String descripcion,Date fecha, String estado){
+        String query = "INSERT INTO tarea (nombre, descripcion, fecha, estado) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement pst = Conexion.getConnection().prepareStatement(query)) {
+            pst.setString(1, "fecha");
+            pst.setString(2, "golLocal");
+            pst.setDate(3, new java.sql.Date(2003,12,12));
+            pst.setString(4, "EN_PROCESO");
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -8,8 +8,12 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
+        Servicio taskService = new Servicio();
+        Connection conn = Conexion.getConnection();
 
-        Servicio taskService = new Servicio(Conexion.getConnection());
+        Servicio.crearTabla();
+
+        Servicio.insertarDatos("irnvmov","tbnrievo",new Date(2007,12,11),"irevjesjvn");
 
         /*String query = "INSERT INTO tarea (id, nombre, descripcion, fecha, estado) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement pst = conn.prepareStatement(query)) {

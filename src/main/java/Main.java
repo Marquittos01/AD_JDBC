@@ -1,8 +1,12 @@
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
+
+        Connection conexion = Conexion.getConnection();
+
         Scanner scanner = new Scanner(System.in);
         Servicio taskService = new Servicio();
         Conexion.getConnection();

@@ -9,11 +9,11 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         Servicio taskService = new Servicio();
-        Connection conexion = Conexion.getConnection();
+        Connection conn = Conexion.getConnection();
 
         String query = "INSERT INTO tarea (id, nombre, descripcion, fecha, estado) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement pst = Objects.requireNonNull(conexion).prepareStatement(query)) {
-            pst.setInt(1, 4);
+        try (PreparedStatement pst = conn.prepareStatement(query)) {
+            pst.setInt(1, 5);
             pst.setString(2, "fecha");
             pst.setString(3, "golLocal");
             pst.setDate(4, new Date(2003,12,12));
@@ -61,34 +61,5 @@ public class Main {
         } while (option != 5);
 
         scanner.close();
-    }
-
-    public Connection getConnectionn() throws IOException {
-        Properties properties = new Properties();
-        String URL, BBDD, USER, PWD;
-
-        InputStream input = Conexion.class.getClassLoader().getResourceAsStream("bbdd.properties");
-        if (input == null) {
-            System.out.println("No se pudo encontrar el archivo de propiedades");
-            return null;
-        } else {
-            properties.load(input);
-            URL = (String) properties.get("URL");
-            BBDD = (String) properties.get("BBDD");
-            USER = (String) properties.get("USER");
-            PWD = (String) properties.get("PWD");
-
-            Connection conn;
-            try {
-                String cadconex = URL + "/" + BBDD + " USER:" + USER + "PWD:" + PWD;
-                System.out.println(cadconex);
-                conn = DriverManager.getConnection(URL + "/" + BBDD, USER, PWD);
-
-                return conn;
-            } catch (SQLException e) {
-                System.out.println("Error SQL: " + e.getMessage());
-                return null;
-            }
-        }
     }
 }

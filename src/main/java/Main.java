@@ -8,10 +8,10 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
-        Servicio taskService = new Servicio();
-        Connection conn = Conexion.getConnection();
 
-        String query = "INSERT INTO tarea (id, nombre, descripcion, fecha, estado) VALUES (?, ?, ?, ?, ?)";
+        Servicio taskService = new Servicio(Conexion.getConnection());
+
+        /*String query = "INSERT INTO tarea (id, nombre, descripcion, fecha, estado) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement pst = conn.prepareStatement(query)) {
             pst.setInt(1, 5);
             pst.setString(2, "fecha");
@@ -21,7 +21,7 @@ public class Main {
             pst.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }
+        }*/
 
 
         int option;

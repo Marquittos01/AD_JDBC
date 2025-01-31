@@ -1,11 +1,14 @@
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.*;
 
 public class Servicio {
+    public Servicio(Connection conn){
+        this.conn = conn;
+    }
+    private Connection conn;
     private ArrayList<Tarea> tasks = new ArrayList<>();
     private int idActual = 1;
 
@@ -22,10 +25,6 @@ public class Servicio {
 
     public void anadirTarea(Scanner scanner) throws IOException {
 
-        /*if (getConnection() == null) {
-            System.out.println("No se ha conectado a la base de datos.");
-            return;
-        }*/
         System.out.print("Nombre de la tarea: ");
         String name = scanner.nextLine();
         System.out.print("Descripción de la tarea: ");
@@ -48,6 +47,20 @@ public class Servicio {
         Date date = new Date();
         tasks.add(new Tarea(idActual++, name, description, estado, date));
         System.out.println("Tarea añadida correctamente.");
+
+
+        // Insertar en la base de datos
+        String query = "INSERT INTO tarea (id, nombre, descripcion, fecha, estado) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement pst = conn.prepareStatement(query)) {
+            pst.setInt(1, -1);
+            pst.setString(2, name);
+            pst.setString(3, description);
+            pst.setDate(4, new java.sql.Date(date.getYear(), date.getMonth(), date.getDay()));
+            pst.setString(5, estado.toString());
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

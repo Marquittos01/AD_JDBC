@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class Servicio {
     private static ArrayList<Tarea> tasks = new ArrayList<>();
-    private int idActual = 1;
+    private static int idActual = 1;
 
     public void verTareas() {
         if (tasks.isEmpty()) {
@@ -173,6 +173,7 @@ public class Servicio {
                 Estado estado = Estado.valueOf(rs.getString("estado"));
                 tasks.add(new Tarea(id, nombre, descripcion, estado, fecha));
             }
+            idActual = tasks.get(tasks.size() - 1).getId();
         } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
         }

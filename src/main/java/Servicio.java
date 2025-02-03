@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.Date;
 
 public class Servicio {
-    private ArrayList<Tarea> tasks = new ArrayList<>();
+    private static ArrayList<Tarea> tasks = new ArrayList<>();
     private int idActual = 1;
 
     public void verTareas() {
@@ -157,6 +157,23 @@ public class Servicio {
                 throw new RuntimeException(e);
             }
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void cargarTareas() {
+        String query = "SELECT * FROM tarea";
+        try (PreparedStatement pst = Conexion.getConnection().prepareStatement(query)) {
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String nombre = rs.getString("nombre");
+                String descripcion = rs.getString("descripcion");
+                Date fecha = rs.getDate("fecha");
+                Estado estado = Estado.valueOf(rs.getString("estado"));
+                tasks.add(new Tarea(id, nombre, descripcion, estado, fecha));
+            }
+        } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
         }
     }

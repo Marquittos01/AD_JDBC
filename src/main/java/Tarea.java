@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.Date;
 
@@ -58,6 +59,7 @@ public class Tarea {
 
     @Override
     public String toString() {
-        return "ID: " + id + " | Nombre: " + name + " |  " + description + " | Fecha: " + date + " | [" + status + "]";
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return "ID: " + id + " | Nombre: " + name + " |  " + description + " | Fecha: " + sdf.format(date) + " | [" + status + "]";
     }
 }

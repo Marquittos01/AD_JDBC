@@ -122,11 +122,19 @@ public class Servicio {
 
         Tarea task = findTaskById(taskId);
         if (task == null) {
-            System.out.println("ID de tarea no válido.");
+            System.out.println("La tarea no existe.");
             return;
         }
 
         tasks.remove(task);
+
+        String query = "DELETE FROM tarea WHERE id = " + taskId;
+        try (PreparedStatement pst = Conexion.getConnection().prepareStatement(query)) {
+            pst.executeUpdate();
+        } catch (SQLException | IOException e) {
+            throw new RuntimeException(e);
+        }
+
         System.out.println("Tarea eliminada correctamente.");
     }
 

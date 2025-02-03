@@ -181,7 +181,7 @@ public class Servicio {
                 Estado estado = Estado.valueOf(rs.getString("estado"));
                 tasks.add(new Tarea(id, nombre, descripcion, estado, fecha));
             }
-            idActual = tasks.get(tasks.size() - 1).getId();
+            idActual = tasks.get(tasks.size() - 1).getId()+1;
         } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
         }

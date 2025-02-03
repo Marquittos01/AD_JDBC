@@ -1,6 +1,8 @@
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.Date;
 
@@ -21,10 +23,6 @@ public class Servicio {
 
     public void anadirTarea(Scanner scanner) throws IOException {
 
-        /*if (getConnection() == null) {
-            System.out.println("No se ha conectado a la base de datos.");
-            return;
-        }*/
         System.out.print("Nombre de la tarea: ");
         String name = scanner.nextLine();
         System.out.print("Descripción de la tarea: ");
@@ -44,7 +42,9 @@ public class Servicio {
             }
         }
 
-        Date date = new Date();
+        LocalDate ld = LocalDate.now();
+        Date date = Date.from(ld.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
         tasks.add(new Tarea(idActual++, name, description, estado, date));
         System.out.println("Tarea añadida correctamente.");
 
@@ -63,8 +63,6 @@ public class Servicio {
 
 
     public void modificarTarea(Scanner scanner) throws IOException {
-
-
         verTareas();
         if (tasks.isEmpty()) return;
 
@@ -107,6 +105,17 @@ public class Servicio {
             }
 
             task.setStatus(newEstado);
+        }
+
+        String query = "UPDATE tarea SET nombre = ?, descripcion = ?, estado = ? WHERE id = ?";
+        try (PreparedStatement pst = Conexion.getConnection().prepareStatement(query)) {
+            pst.setString(1, task.getName());
+            pst.setString(2, task.getDescription());
+            pst.setString(3, task.getStatus().toString());
+            pst.setInt(4, taskId);
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
         System.out.println("Tarea modificada correctamente.");

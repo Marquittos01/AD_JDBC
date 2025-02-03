@@ -1,3 +1,4 @@
+import java.time.ZoneId;
 import java.util.Date;
 
 public class Tarea {
@@ -57,6 +58,6 @@ public class Tarea {
 
     @Override
     public String toString() {
-        return "ID: " + id + " | Nombre: " + name + " | [" + status + "] " + description + " | Fecha: " + date;
+        return "ID: " + id + " | Nombre: " + name + " |  " + description + " | Fecha: " + date + " | [" + status + "]";
     }
 }

@@ -29,17 +29,24 @@ public class Servicio {
         String description = scanner.nextLine();
         System.out.print("Estado de la tarea (Pendiente/En proceso/Finalizada): ");
         String status = scanner.nextLine().toLowerCase();
+        Estado estado = null;
 
-        Estado estado;
-
+        List<String> lista = new ArrayList<>(List.of("pendiente", "finalizada", "en proceso"));
+        while (!lista.contains(status)){
+            System.err.println("Opción invalida");
+            try {
+                Thread.sleep(200);
+            }catch (InterruptedException e) {
+                System.out.println(e.getMessage());
+            }
+            System.out.print("Estado de la tarea (Pendiente/En proceso/Finalizada): ");
+            status = scanner.nextLine().toLowerCase();
+        }
         switch (status) {
             case "pendiente" -> estado = Estado.PENDIENTE;
             case "en proceso" -> estado = Estado.EN_PROCESO;
             case "finalizada" -> estado = Estado.FINALIZADA;
-            default -> {
-                System.out.println("Estado de tarea inválido. Se utiliza 'Pendiente' por defecto.");
-                estado = Estado.PENDIENTE;
-            }
+            default -> {}
         }
 
         LocalDate ld = LocalDate.now();
@@ -91,21 +98,28 @@ public class Servicio {
 
         System.out.print("Nuevo estado (deja vacío para no cambiar) \n{Pendiente - En proceso - Finalizada}: ");
         String newStatus = scanner.nextLine().toLowerCase();
+        Estado newEstado = null;
 
-        Estado newEstado;
         if (!newStatus.isEmpty()) {
+            List<String> lista = new ArrayList<>(List.of("pendiente", "finalizada", "en proceso",""));
+            while (!lista.contains(newStatus)){
+                System.err.println("Opción invalida");
+                try {
+                    Thread.sleep(200);
+                }catch (InterruptedException e) {
+                    System.out.println(e.getMessage());
+                }
+                System.out.print("Estado de la tarea (Pendiente/En proceso/Finalizada): ");
+                newStatus = scanner.nextLine().toLowerCase();
+            }
             switch (newStatus) {
                 case "pendiente" -> newEstado = Estado.PENDIENTE;
                 case "en proceso" -> newEstado = Estado.EN_PROCESO;
                 case "finalizada" -> newEstado = Estado.FINALIZADA;
-                default -> {
-                    System.out.println("Estado de tarea inválido. Se utiliza 'Pendiente' por defecto.");
-                    newEstado = Estado.PENDIENTE;
-                }
+                default -> {}
             }
-
-            task.setStatus(newEstado);
         }
+        task.setStatus(newEstado);
 
         String query = "UPDATE tarea SET nombre = ?, descripcion = ?, estado = ? WHERE id = ?";
         try (PreparedStatement pst = Conexion.getConnection().prepareStatement(query)) {

@@ -9,26 +9,11 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         Servicio taskService = new Servicio();
-        Connection conn = Conexion.getConnection();
 
         Servicio.crearTabla();
         Servicio.cargarTareas();
-        //Servicio.insertarDatos("irnvmov","tbnrievo",new Date(2007,12,11),"irevjesjvn");
 
-        /*String query = "INSERT INTO tarea (id, nombre, descripcion, fecha, estado) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement pst = conn.prepareStatement(query)) {
-            pst.setInt(1, 5);
-            pst.setString(2, "fecha");
-            pst.setString(3, "golLocal");
-            pst.setDate(4, new Date(2003,12,12));
-            pst.setString(5, "EN_PROCESO");
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }*/
-
-
-        int option;
+        String option;
 
         do {
             System.out.println("\nGestor de Tareas");
@@ -39,30 +24,29 @@ public class Main {
             System.out.println("5. Salir");
             System.out.print("Selecciona una opción: ");
 
-            option = scanner.nextInt();
-            scanner.nextLine();
+            option = scanner.nextLine();
 
             switch (option) {
-                case 1:
+                case "1":
                     taskService.verTareas();
                     break;
-                case 2:
+                case "2":
                     taskService.anadirTarea(scanner);
                     break;
-                case 3:
+                case "3":
                     taskService.modificarTarea(scanner);
                     break;
-                case 4:
+                case "4":
                     taskService.eliminarTarea(scanner);
                     break;
-                case 5:
+                case "5":
                     System.out.println("Saliendo...");
                     break;
                 default:
                     System.out.println("Opción no válida. Intenta de nuevo.");
             }
 
-        } while (option != 5);
+        } while (!option.equals("5"));
 
         scanner.close();
     }

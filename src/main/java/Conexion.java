@@ -40,19 +40,4 @@ public class Conexion {
     public static void closeConnection(Connection connection) throws SQLException {
         connection.close();
     }
-
-    /*CREATE TABLE IF NOT EXISTS public."Tarea"
-        (
-                id integer NOT NULL DEFAULT nextval('"Tarea_id_seq"'::regclass),
-                nombre text COLLATE pg_catalog."default" NOT NULL,
-        descripcion text COLLATE pg_catalog."default",
-                fecha date NOT NULL,
-                estado text COLLATE pg_catalog."default" NOT NULL,
-        CONSTRAINT "Tarea_pkey" PRIMARY KEY (id)
-)
-
-        TABLESPACE pg_default;
-
-        ALTER TABLE IF EXISTS public."Tarea"
-        OWNER to postgres;*/
 }

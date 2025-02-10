@@ -11,14 +11,15 @@ public class Conexion {
 
     public static Connection getConnection() throws IOException {
         Properties properties = new Properties();
-        String URL, BBDD, USER, PWD;
+        //String URL, BBDD, USER, PWD;
+        String URL, BBDD, USER, PWD, SUPABASE;
 
         InputStream input = Conexion.class.getClassLoader().getResourceAsStream("bbdd.properties");
         if (input == null) {
             System.out.println("No se pudo encontrar el archivo de propiedades");
             return null;
         } else {
-            properties.load(input);
+            /*properties.load(input);
             URL = (String) properties.get("URL");
             BBDD = (String) properties.get("BBDD");
             USER = (String) properties.get("USER");
@@ -29,6 +30,23 @@ public class Conexion {
                 String cadconex = URL + "/" + BBDD + " USER:" + USER + "PWD:" + PWD;
                 System.out.println(cadconex);
                 conn = DriverManager.getConnection(URL + "/" + BBDD, USER, PWD);
+                return conn;
+            } catch (SQLException e) {
+                System.out.println("Error SQL: " + e.getMessage());
+                return null;
+            }*/
+            properties.load(input);
+            URL = (String) properties.get("URL");
+            BBDD = (String) properties.get("BBDD");
+            USER = (String) properties.get("USER");
+            PWD = (String) properties.get("PWD");
+            SUPABASE = (String) properties.get("SUPABASE");
+
+            Connection conn;
+            try {
+                String cadconex = URL + "/" + BBDD + " USER:" + USER + "PWD:" + PWD;
+                System.out.println(cadconex);
+                conn = DriverManager.getConnection(SUPABASE);
                 return conn;
             } catch (SQLException e) {
                 System.out.println("Error SQL: " + e.getMessage());

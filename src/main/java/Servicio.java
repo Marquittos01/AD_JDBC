@@ -209,19 +209,4 @@ public class Servicio {
             throw new RuntimeException(e);
         }
     }
-
-    public static void insertarDatos(String nombre, String descripcion,Date fecha, String estado){
-        String query = "INSERT INTO tarea (nombre, descripcion, fecha, estado) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement pst = Conexion.getConnection().prepareStatement(query)) {
-            pst.setString(1, "fecha");
-            pst.setString(2, "golLocal");
-            pst.setDate(3, new java.sql.Date(2003,12,12));
-            pst.setString(4, "EN_PROCESO");
-            pst.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

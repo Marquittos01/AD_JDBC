@@ -12,7 +12,7 @@ public class Conexion {
     public static Connection getConnection() throws IOException {
         Properties properties = new Properties();
         //String URL, BBDD, USER, PWD;
-        String URL, BBDD, USER, PWD, SUPABASE;
+        String SUPABASE;
 
         InputStream input = Conexion.class.getClassLoader().getResourceAsStream("bbdd.properties");
         if (input == null) {
@@ -36,16 +36,11 @@ public class Conexion {
                 return null;
             }*/
             properties.load(input);
-            URL = (String) properties.get("URL");
-            BBDD = (String) properties.get("BBDD");
-            USER = (String) properties.get("USER");
-            PWD = (String) properties.get("PWD");
             SUPABASE = (String) properties.get("SUPABASE");
 
             Connection conn;
-            try {
-                String cadconex = URL + "/" + BBDD + " USER:" + USER + "PWD:" + PWD;
-                System.out.println(cadconex);
+            try {;
+                System.out.println(SUPABASE);
                 conn = DriverManager.getConnection(SUPABASE);
                 return conn;
             } catch (SQLException e) {

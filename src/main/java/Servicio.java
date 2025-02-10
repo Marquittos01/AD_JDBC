@@ -68,7 +68,6 @@ public class Servicio {
         }
     }
 
-
     public void modificarTarea(Scanner scanner) throws IOException {
         verTareas();
         if (tasks.isEmpty()) return;

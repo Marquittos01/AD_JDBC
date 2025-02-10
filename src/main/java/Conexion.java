@@ -11,8 +11,7 @@ public class Conexion {
 
     public static Connection getConnection() throws IOException {
         Properties properties = new Properties();
-        //String URL, BBDD, USER, PWD;
-        String SUPABASE;
+        String URL, BBDD, USER, PWD, SUPABASE;
 
         InputStream input = Conexion.class.getClassLoader().getResourceAsStream("bbdd.properties");
         if (input == null) {
